@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://aleixmine.github.io',
-  	base: 'docs',
+	base: 'docs',
 	integrations: [
 		starlight({
 			social: {
@@ -13,32 +13,28 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: 'Guides',
+					label: 'Glass API',
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{
+							label: 'Getting started',
+							translations: { es: 'Empezando' },
+							autogenerate: { directory: 'guides' },
+						},
+						{
+							label: 'Reference',
+							translations: { es: 'Referencias' },
+							autogenerate: { directory: 'reference' },
+						},
 					],
 				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
-				},
-				
 			],
 			title: {
 				en: 'Documentation',
 				es: 'Documentación',
 			},
-			defaultLocale: 'en',
 			locales: {
-				'en': {
-					label: 'English',
-					lang: 'en-US'
-				},
-				'es': {
-					label: 'Español',
-					lang: 'es-ES'
-				}
+				root: { label: 'English', lang: 'en' },
+				es: { label: 'Español', lang: 'es' },
 			}
 		}),
 	],
