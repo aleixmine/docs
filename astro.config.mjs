@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, passthroughImageService  } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
@@ -8,9 +8,8 @@ export default defineConfig({
   	base: 'docs',
 	integrations: [
 		starlight({
-			title: 'My Docs',
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/aleixmine/docs',
 			},
 			sidebar: [
 				{
@@ -24,7 +23,23 @@ export default defineConfig({
 					label: 'Reference',
 					autogenerate: { directory: 'reference' },
 				},
+				
 			],
+			title: {
+				en: 'Documentation',
+				es: 'Documentación',
+			},
+			defaultLocale: 'en',
+			locales: {
+				'en': {
+					label: 'English',
+					lang: 'en-US'
+				},
+				'es': {
+					label: 'Español',
+					lang: 'es-ES'
+				}
+			}
 		}),
 	],
 });
