@@ -1,0 +1,28 @@
+---
+title: Chat Components
+description: Components represent Minecraft chat components
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+export const exampleCode = `Component.text("Hello ")
+    .color(NamedTextColor.DARK_PURPLE)
+    .strikethrough(true)
+    .bold(true)
+    .hoverEvent(HoverEvent.SHOW_TEXT("Hello world!"))
+    .clickEvent(ClickEvent.SUGGEST_COMMAND("/say clickEvent"))
+    .insertion("/say Insertion")
+    .append(Component.text("world")
+        .italic(true)
+        .strikethrough(false)
+        .color(NamedTextColor.GREEN)
+    )
+    .append(Component.text("!")
+        .underlined(true)
+        .color(NamedTextColor.RED)
+        .clickEvent(ClickEvent.OPEN_URL("https://www.google.com/"))
+    )
+    .build()`;
+
+
+<Code code={exampleCode} lang="js" title="example_component.ts" lang="js" />
