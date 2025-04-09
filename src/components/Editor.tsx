@@ -6,10 +6,10 @@ import { loadWASM } from 'onigasm';
 export default function CodeEditor() {
   function handleEditorBeforeMount(monaco: Monaco) {
     Promise.all([
-      fetch("data/GlassAPI.d.ts").then(res => res.text()),
-      fetch("data/ModAPI.d.ts").then(res => res.text()),
-      fetch(`data/OneDark-Pro-flat.json`).then(res => res.json()),
-      (new FontFace('CascadiaCode NF', 'url(data/CascadiaCodeNF.ttf)')).load().then((loadedFace) => {
+      fetch("/docs/data/GlassAPI.d.ts").then(res => res.text()),
+      fetch("/docs/data/ModAPI.d.ts").then(res => res.text()),
+      fetch(`/docs/data/OneDark-Pro-flat.json`).then(res => res.json()),
+      (new FontFace('CascadiaCode NF', 'url(/docs/data/CascadiaCodeNF.ttf)')).load().then((loadedFace) => {
         document.fonts.add(loadedFace);
       })
     ]).then(([glassAPI, modAPI, theme]) => {
@@ -22,13 +22,13 @@ export default function CodeEditor() {
   }
 
   async function mounting(editor:any, monaco: Monaco){
-    await loadWASM(`data/onigasm.wasm`) // See https://www.npmjs.com/package/onigasm#light-it-up
+    await loadWASM(`/docs/data/onigasm.wasm`) // See https://www.npmjs.com/package/onigasm#light-it-up
 
     const registry = new Registry({
         getGrammarDefinition: async (scopeName) => {
             return {
                 format: 'json',
-                content: await (await fetch(`data/TypeScript.tmLanguage.json`)).text()
+                content: await (await fetch(`/docs/data/TypeScript.tmLanguage.json`)).text()
             }
         }
     })
