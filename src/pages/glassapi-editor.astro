@@ -1,0 +1,88 @@
+---
+import CodeEditor from "../components/Editor";
+---
+
+<style is:inline>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<CodeEditor
+    client:visible
+    content={atob(
+        "Ly8gV2VsY29tZSB0byB0aGUgR2xhc3NBUEkgRWRpdG9yIQovLyBUaGlzIGVkaXRvciBmdWxseSBzdXBwb3J0cyBNb2RBUEkgYW5kIEdsYXNzQVBJIFR5cGVTY3JpcHQgZGVjbGFyYXRpb25zLgovLyBVc2UgQ3RybCArIFMgdG8gc2F2ZSB5b3VyIHdvcmsuCi8vIFByZXNzIEN0cmwgKyBPIHRvIG9wZW4gZXhpc3RpbmcgZmlsZXMuCi8vIEVuam95IGNvZGluZyB3aXRoIGVuaGFuY2VkIGZlYXR1cmVzIGFuZCBzbW9vdGggbmF2aWdhdGlvbiE=",
+    )}
+/>
+<input type="file" id="fileInput" />
+<script is:inline>
+    function isMonacoReady() {
+        return (
+            typeof monaco !== "undefined" &&
+            monaco.editor &&
+            monaco.editor.getEditors()[0]
+        );
+    }
+
+    function waitForMonaco() {
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (isMonacoReady()) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100);
+        });
+    }
+
+    async function initializeEditor() {
+        await waitForMonaco();
+
+        const savedContent = localStorage.getItem("editorContent");
+        if (savedContent) {
+            monaco.editor.getEditors()[0].setValue(savedContent);
+        }
+
+        window.addEventListener("beforeunload", () => {
+            const content = monaco.editor.getEditors()[0].getValue();
+            localStorage.setItem("editorContent", content);
+        });
+    }
+
+    window.addEventListener("load", initializeEditor);
+
+    document
+        .getElementById("fileInput")
+        .addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const content = e.target.result;
+                    monaco.editor.getEditors()[0].setValue(content);
+                };
+                reader.onerror = function () {
+                    console.error("Error reading file");
+                };
+                reader.readAsText(file);
+            }
+        });
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "s") {
+            e.preventDefault();
+            const content = monaco.editor.getEditors()[0].getValue();
+            const blob = new Blob([content], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const enlace = document.createElement("a");
+            enlace.href = url;
+            enlace.download = "mod.ts";
+            enlace.click();
+            URL.revokeObjectURL(url);
+        }
+        if (e.ctrlKey && e.key === "o") {
+            e.preventDefault();
+            document.getElementById("fileInput").click();
+        }
+    });
+</script>

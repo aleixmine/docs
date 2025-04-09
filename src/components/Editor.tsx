@@ -2,8 +2,11 @@ import { Editor as MonacoEditor, type Monaco } from '@monaco-editor/react';
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import { Registry } from 'monaco-textmate';
 import { loadWASM } from 'onigasm';
+interface CodeEditorProps {
+  content: string;
+}
+export default function CodeEditor({content = ""}:CodeEditorProps) {
 
-export default function CodeEditor() {
   function handleEditorBeforeMount(monaco: Monaco) {
     Promise.all([
       fetch("/docs/data/GlassAPI.d.ts").then(res => res.text()),
@@ -22,7 +25,7 @@ export default function CodeEditor() {
   }
 
   async function mounting(editor:any, monaco: Monaco){
-    await loadWASM(`/docs/data/onigasm.wasm`) // See https://www.npmjs.com/package/onigasm#light-it-up
+    await loadWASM(`/docs/data/onigasm.wasm`)
 
     const registry = new Registry({
         getGrammarDefinition: async (scopeName) => {
@@ -42,8 +45,8 @@ export default function CodeEditor() {
   
 
   return <MonacoEditor
-    height="90vh"
-    defaultValue=""
+    height="100vh"
+    defaultValue={content}
     language="typescript"
     theme="vs-dark"
     options={{

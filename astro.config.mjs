@@ -22,6 +22,11 @@ export default defineConfig({
                         slug: 'glass-api/getting-started',
                     },
                     {
+                        label: 'GlassAPI Editor',
+                        translations: { es: 'GlassAPI Editor' },
+                        slug: 'glass-api/editor',
+                    },
+                    {
                         label: 'Tutorial',
                         translations: { es: 'Tutorial' },
                         autogenerate: { directory: 'glass-api/tutorial' },
